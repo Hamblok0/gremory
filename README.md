@@ -1,4 +1,4 @@
-Dark fantasy roguelike made in macroquad-rs
+Dark fantasy roguelike made in ggez
 
 
 
