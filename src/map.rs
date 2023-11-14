@@ -51,6 +51,8 @@ impl Map {
     }
 
     pub fn draw(&self, canvas: &mut Canvas) {
+        let floor_tile = &self.tile_map.uv_rect(8 * 32, 2 * 32, 32, 32);
+        let wall_tile = &self.tile_map.uv_rect(0, 2 * 32, 32, 32);
         for y in 0..NUM_Y {
             for x in 0..NUM_X {
                 let idx = self.idx(x, y);
@@ -58,13 +60,11 @@ impl Map {
                 let yx = (y * 32) as f32;
                 match self.map[idx] {
                     TileType::Floor => {
-                        let floor_tile = &self.tile_map.uv_rect(8 * 32, 2 * 32, 32, 32);
                         canvas.draw(&self.tile_map, DrawParam::default()
                         .dest(vec2(fx, yx))
                         .src(*floor_tile))
                     },
                     TileType::Wall => {
-                        let wall_tile = &self.tile_map.uv_rect(0, 2 * 32, 32, 32);
                         canvas.draw(&self.tile_map, DrawParam::default()
                         .dest(vec2(fx, yx))
                         .src(*wall_tile))
