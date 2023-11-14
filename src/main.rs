@@ -1,5 +1,6 @@
-use ggez::{Context, ContextBuilder, GameResult};
-use ggez::graphics::{self, Color };
+use ggez::{Context, ContextBuilder, GameResult };
+use ggez::graphics::{self, Color, Image, Rect, DrawParam };
+use ggez::glam::*;
 use ggez::event::{self, EventHandler};
 use ggez::conf::*;
 
@@ -28,7 +29,7 @@ impl MainState {
         let mut map = map::Map::new(ctx);
         map.build();
         Self {
-            map
+            map,
         }
     }
 }
