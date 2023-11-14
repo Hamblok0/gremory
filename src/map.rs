@@ -1,6 +1,7 @@
 use ggez::glam::*;
 use ggez::Context;
-use ggez::graphics::{ Image, DrawParam, Rect, Canvas };
+
+use crate::tile::TileType;
 
 const WINDOW_HEIGHT: i32 = 1080;
 const WINDOW_WIDTH: i32 = 1920;
@@ -9,22 +10,13 @@ const NUM_Y: usize = (WINDOW_HEIGHT as usize) / 32;
 const NUM_TILES: usize = NUM_Y * NUM_X;
 
 pub struct Map {
-    tile_map: Image,
     map: Vec<TileType>
-}
-
-#[derive(Debug, Clone, PartialEq)]
-enum TileType {
-    Floor,
-    Wall
 }
 
 impl Map {
     pub fn new(ctx: &mut Context) -> Self {
-        let tile_map = Image::from_path(ctx, "/tiles.png").unwrap();
         let map = vec![TileType::Floor; NUM_TILES];
         Self {
-            tile_map,
             map
         }
     }
@@ -50,27 +42,27 @@ impl Map {
         }
     }
 
-    pub fn draw(&self, canvas: &mut Canvas) {
-        let floor_tile = &self.tile_map.uv_rect(8 * 32, 2 * 32, 32, 32);
-        let wall_tile = &self.tile_map.uv_rect(0, 2 * 32, 32, 32);
-        for y in 0..NUM_Y {
-            for x in 0..NUM_X {
-                let idx = self.idx(x, y);
-                let fx = (x * 32) as f32;
-                let yx = (y * 32) as f32;
-                match self.map[idx] {
-                    TileType::Floor => {
-                        canvas.draw(&self.tile_map, DrawParam::default()
-                        .dest(vec2(fx, yx))
-                        .src(*floor_tile))
-                    },
-                    TileType::Wall => {
-                        canvas.draw(&self.tile_map, DrawParam::default()
-                        .dest(vec2(fx, yx))
-                        .src(*wall_tile))
-                    }
-                }
-            }
-        }
-    }
+    // pub fn draw(&self, canvas: &mut Canvas) {
+    //     let floor_tile = &self.tile_map.uv_rect(8 * 32, 2 * 32, 32, 32);
+    //     let wall_tile = &self.tile_map.uv_rect(0, 2 * 32, 32, 32);
+    //     for y in 0..NUM_Y {
+    //         for x in 0..NUM_X {
+    //             let idx = self.idx(x, y);
+    //             let fx = (x * 32) as f32;
+    //             let yx = (y * 32) as f32;
+    //             match self.map[idx] {
+    //                 TileType::Floor => {
+    //                     canvas.draw(&self.tile_map, DrawParam::default()
+    //                     .dest(vec2(fx, yx))
+    //                     .src(*floor_tile))
+    //                 },
+    //                 TileType::Wall => {
+    //                     canvas.draw(&self.tile_map, DrawParam::default()
+    //                     .dest(vec2(fx, yx))
+    //                     .src(*wall_tile))
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
