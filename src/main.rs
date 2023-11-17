@@ -35,17 +35,15 @@ fn main() {
 
 struct MainState {
     map: map::Map,
-    tiles: tile::Tile,
     camera: camera::Camera,
 }
 
 impl MainState {
     pub fn new(ctx: &mut Context) -> Self {
-        let tiles = tile::Tile::new(ctx);
         let mut map = map::Map::new();
         map.build();
-        let mut camera = camera::Camera::new(ctx, vec2(3. * 32., 3. * 32.));
-        Self { map, tiles, camera }
+        let camera = camera::Camera::new(ctx, vec2(3. * 32., 3. * 32.));
+        Self { map, camera }
     }
 }
 
@@ -56,7 +54,7 @@ impl EventHandler for MainState {
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::BLACK);
-        // self.map.draw(&mut canvas);
+        self.camera.render(ctx, &mut canvas, &self.map.map);
         canvas.finish(ctx)
     }
 }

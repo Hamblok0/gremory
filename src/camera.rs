@@ -37,7 +37,7 @@ impl Camera {
         self.bottom = self.player_position.y + FHEIGHT;
     }
 
-    pub fn draw(&self, ctx: &mut Context, canvas: &mut Canvas, map: &Vec<TileType>) {
+    pub fn render(&self, ctx: &mut Context, canvas: &mut Canvas, map: &Vec<TileType>) {
         let tiles = Tile::new(ctx);
 
         for y in 0..NUM_Y {

@@ -3,8 +3,8 @@ use ggez::glam::*;
 
 use crate::prelude::*;
 pub struct Map {
-    map: Vec<TileType>,
-    player_start: Vec2,
+    pub map: Vec<TileType>,
+    pub player_start: Vec2,
 }
 
 pub fn idx(x: usize, y: usize) -> usize {
