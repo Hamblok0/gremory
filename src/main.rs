@@ -27,7 +27,7 @@ struct MainState {
 impl MainState {
     pub fn new(ctx: &mut Context) -> Self {
         let tiles = tile::Tile::new(ctx);
-        let mut map = map::Map::new(ctx);
+        let mut map = map::Map::new();
         map.build();
 
         Self {
