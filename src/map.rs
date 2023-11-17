@@ -1,12 +1,7 @@
 use ggez::glam::*;
 use crate::tile::TileType;
 
-const WINDOW_HEIGHT: i32 = 1080;
-const WINDOW_WIDTH: i32 = 1920;
-const NUM_X: usize = (WINDOW_WIDTH as usize) / 32;
-const NUM_Y: usize = (WINDOW_HEIGHT as usize) / 32;
-const NUM_TILES: usize = NUM_Y * NUM_X;
-
+use crate::prelude::*;
 pub struct Map {
     map: Vec<TileType>,
     player_start: Vec2

@@ -7,9 +7,20 @@ use ggez::conf::*;
 mod map;
 mod tile;
 mod camera;
+
+mod prelude {
+    pub const WINDOW_HEIGHT: f32 = 1080.;
+    pub const WINDOW_WIDTH: f32 = 1920.;
+    pub const NUM_X: usize = (WINDOW_WIDTH as usize) / 32;
+    pub const NUM_Y: usize = (WINDOW_HEIGHT as usize) / 32;
+    pub const NUM_TILES: usize = NUM_Y * NUM_X;
+}    
+
+use prelude::*;
+
 fn main() {
     let (mut ctx, event_loop) = ContextBuilder::new("Gremory", "hambloko@gmail.com")
-        .window_mode(WindowMode::default().dimensions(1920.0, 1080.0).fullscreen_type(FullscreenType::Windowed))
+        .window_mode(WindowMode::default().dimensions(WINDOW_WIDTH, WINDOW_HEIGHT).fullscreen_type(FullscreenType::Windowed))
         .build()
         .expect("Context could not be built");
 

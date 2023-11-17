@@ -2,18 +2,14 @@
 
 use ggez::glam::*;
 use ggez::Context;
-use ggez::graphics::{ DrawParam, Canvas};
+use ggez::graphics::{ DrawParam, Canvas };
 
 use crate::tile::*;
 use crate::map::*;
+use crate::prelude::*;
 
-const WINDOW_HEIGHT: i32 = 1080;
-const WINDOW_WIDTH: i32 = 1920;
-const NUM_X: usize = (WINDOW_WIDTH as usize) / 32;
-const NUM_Y: usize = (WINDOW_HEIGHT as usize) / 32;
-const NUM_TILES: usize = NUM_Y * NUM_X;
-const FWIDTH: f32 = (WINDOW_WIDTH / 2) as f32;
-const FHEIGHT: f32 = (WINDOW_HEIGHT / 2) as f32;
+const FWIDTH: f32 = WINDOW_WIDTH / 2.;
+const FHEIGHT: f32 = WINDOW_HEIGHT / 2.; 
 
 pub struct Camera {
     pub left: f32,
