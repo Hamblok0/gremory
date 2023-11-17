@@ -1,10 +1,10 @@
-use ggez::glam::*;
 use crate::tile::TileType;
+use ggez::glam::*;
 
 use crate::prelude::*;
 pub struct Map {
     map: Vec<TileType>,
-    player_start: Vec2
+    player_start: Vec2,
 }
 
 pub fn idx(x: usize, y: usize) -> usize {
@@ -15,10 +15,7 @@ impl Map {
     pub fn new() -> Self {
         let map = vec![TileType::Floor; NUM_TILES];
         let player_start = vec2((NUM_X / 2) as f32, (NUM_Y / 2) as f32);
-        Self {
-            map,
-            player_start
-        }
+        Self { map, player_start }
     }
 
     pub fn build(&mut self) {

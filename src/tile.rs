@@ -1,12 +1,12 @@
 // TODO: implement this as an instanced array
 
-use ggez::graphics::{ Rect, Image };
+use ggez::graphics::{Image, Rect};
 use ggez::Context;
 
 #[derive(Clone, Debug)]
 pub struct Tile {
     pub tile_map: Image,
-    pub tiles: Vec<Rect>
+    pub tiles: Vec<Rect>,
 }
 
 #[derive(Debug, Clone)]
@@ -14,7 +14,7 @@ pub enum TileType {
     Floor,
     Wall,
     Player,
-    Enemy
+    Enemy,
 }
 
 impl Tile {
@@ -27,39 +27,39 @@ impl Tile {
 
         for i in 0..4 {
             let tile: Rect;
-    
+
             match i {
                 0 => {
                     tile = tile_map.uv_rect(8 * 32, 2 * 32, 32, 32);
                     interface.push(tile);
-                },
+                }
                 1 => {
                     tile = tile_map.uv_rect(0, 2 * 32, 32, 32);
                     interface.push(tile);
-                },
+                }
                 2 => {
                     tile = tile_map.uv_rect(0, 3 * 32, 32, 32);
                     interface.push(tile);
-                },
+                }
                 3 => {
                     tile = tile_map.uv_rect(6 * 32, 3 * 32, 32, 32);
                     interface.push(tile);
-                },
-                _ => println!("Unexpected value given to tile interface creator")
+                }
+                _ => println!("Unexpected value given to tile interface creator"),
             }
         }
         Self {
             tile_map,
-            tiles: interface
+            tiles: interface,
         }
     }
-    
+
     pub fn get_tile(&self, tile: TileType) -> &Rect {
         match tile {
             TileType::Floor => &self.tiles[0],
             TileType::Wall => &self.tiles[1],
             TileType::Player => &self.tiles[2],
-            TileType::Enemy => &self.tiles[3]
+            TileType::Enemy => &self.tiles[3],
         }
     }
 }
