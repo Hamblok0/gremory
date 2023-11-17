@@ -6,7 +6,7 @@ use ggez::conf::*;
 
 mod map;
 mod tile;
-
+mod camera;
 fn main() {
     let (mut ctx, event_loop) = ContextBuilder::new("Gremory", "hambloko@gmail.com")
         .window_mode(WindowMode::default().dimensions(1920.0, 1080.0).fullscreen_type(FullscreenType::Windowed))
