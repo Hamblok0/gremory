@@ -1,7 +1,7 @@
 // TODO, put map's render function here, have camera follow character
 
 use ggez::glam::*;
-use ggez::graphics::{Canvas, DrawParam};
+use ggez::graphics::{Canvas, Color, DrawParam};
 use ggez::Context;
 
 use crate::map::*;
@@ -11,34 +11,32 @@ use crate::tile::*;
 const FWIDTH: f32 = WINDOW_WIDTH / 2.;
 const FHEIGHT: f32 = WINDOW_HEIGHT / 2.;
 
-pub struct Camera {
-    pub left: f32,
-    pub right: f32,
-    pub top: f32,
-    pub bottom: f32,
-    pub player_position: Vec2,
-}
+pub struct Camera {}
 
 impl Camera {
-    pub fn new(ctx: &mut Context, player_position: Vec2) -> Self {
-        Self {
-            left: player_position.x - FWIDTH,
-            right: player_position.x + FWIDTH,
-            top: player_position.y - FHEIGHT,
-            bottom: player_position.y + FHEIGHT,
-            player_position,
-        }
+    pub fn new() -> Self {
+        Self {}
     }
 
-    pub fn on_player_move(&mut self) {
-        self.left = self.player_position.x - FWIDTH;
-        self.right = self.player_position.x + FWIDTH;
-        self.top = self.player_position.y - FHEIGHT;
-        self.bottom = self.player_position.y + FHEIGHT;
-    }
+    // pub fn on_player_move(&mut self) {
+    //     self.left = self.player_position.x - FWIDTH;
+    //     self.right = self.player_position.x + FWIDTH;
+    //     self.top = self.player_position.y - FHEIGHT;
+    //     self.bottom = self.player_position.y + FHEIGHT;
+    // }
 
-    pub fn render(&self, ctx: &mut Context, canvas: &mut Canvas, map: &Vec<TileType>) {
+    pub fn render(
+        &self,
+        ctx: &mut Context,
+        canvas: &mut Canvas,
+        map: &Vec<TileType>,
+        player: &Vec2,
+    ) {
         let tiles = Tile::new(ctx);
+        let px = player.x * 32.;
+        let py = player.y * 32.;
+        let dark_grey = Color::from_rgb(79, 79, 79);
+        let player_color = Color::from_rgb(115, 77, 227);
 
         for y in 0..NUM_Y {
             for x in 0..NUM_X {
@@ -50,17 +48,30 @@ impl Camera {
                         &tiles.tile_map,
                         DrawParam::default()
                             .dest(vec2(fx, yx))
+                            .z(0)
+                            .color(dark_grey)
                             .src(*tiles.get_tile(TileType::Floor)),
                     ),
                     TileType::Wall => canvas.draw(
                         &tiles.tile_map,
                         DrawParam::default()
                             .dest(vec2(fx, yx))
+                            .z(0)
+                            .color(dark_grey)
                             .src(*tiles.get_tile(TileType::Wall)),
                     ),
                     _ => (),
                 }
             }
         }
+
+        canvas.draw(
+            &tiles.tile_map,
+            DrawParam::default()
+                .z(1)
+                .dest(vec2(px, py))
+                .color(player_color)
+                .src(*tiles.get_tile(TileType::Player)),
+        )
     }
 }

@@ -1,11 +1,12 @@
 use ggez::conf::*;
 use ggez::event::{self, EventHandler};
-use ggez::glam::vec2;
+use ggez::glam::{vec2, Vec2};
 use ggez::graphics::{self, Color};
 use ggez::{Context, ContextBuilder, GameResult};
 
 mod camera;
 mod map;
+mod player;
 mod tile;
 
 mod prelude {
@@ -34,6 +35,7 @@ fn main() {
 }
 
 struct MainState {
+    player: player::Player,
     map: map::Map,
     camera: camera::Camera,
 }
@@ -42,8 +44,13 @@ impl MainState {
     pub fn new(ctx: &mut Context) -> Self {
         let mut map = map::Map::new();
         map.build();
-        let camera = camera::Camera::new(ctx, vec2(3. * 32., 3. * 32.));
-        Self { map, camera }
+        let camera = camera::Camera::new();
+        let player = player::Player::new(map.player_start);
+        Self {
+            player,
+            map,
+            camera,
+        }
     }
 }
 
@@ -54,7 +61,24 @@ impl EventHandler for MainState {
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::BLACK);
-        self.camera.render(ctx, &mut canvas, &self.map.map);
+        self.camera
+            .render(ctx, &mut canvas, &self.map.map, &self.player.position);
         canvas.finish(ctx)
+    }
+
+    fn key_down_event(
+        &mut self,
+        _ctx: &mut Context,
+        input: ggez::input::keyboard::KeyInput,
+        _repeated: bool,
+    ) -> Result<(), ggez::GameError> {
+        use ggez::input::keyboard::KeyCode;
+        match input.keycode {
+            Some(KeyCode::K) => Ok(()),
+            Some(KeyCode::J) => Ok(()),
+            Some(KeyCode::H) => Ok(()),
+            Some(KeyCode::L) => Ok(()),
+            _ => Ok(()),
+        }
     }
 }

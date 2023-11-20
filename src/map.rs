@@ -21,6 +21,7 @@ impl Map {
     pub fn build(&mut self) {
         let iy = NUM_Y - 1;
         let ix = NUM_X - 1;
+
         for y in 0..NUM_Y {
             let idx_top = idx(0, y);
             let idx_bottom = idx(ix, y);
