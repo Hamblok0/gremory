@@ -44,7 +44,7 @@ impl MainState {
     pub fn new(ctx: &mut Context) -> Self {
         let mut map = map::Map::new();
         map.build();
-        let camera = camera::Camera::new();
+        let camera = camera::Camera::new(ctx, map.player_start);
         let player = player::Player::new(map.player_start);
         Self {
             player,
@@ -73,10 +73,11 @@ impl EventHandler for MainState {
         _repeated: bool,
     ) -> Result<(), ggez::GameError> {
         use ggez::input::keyboard::KeyCode;
+        let px = self.player.position.x;
+        let py = self.player.position.y;
+
         match input.keycode {
             Some(KeyCode::K) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px, py - 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -84,8 +85,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::J) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px, py + 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -93,8 +92,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::H) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px - 1., py);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -102,8 +99,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::L) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px + 1., py);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -111,8 +106,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::Y) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px - 1., py - 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -120,8 +113,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::U) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px + 1., py - 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -129,8 +120,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::B) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px - 1., py + 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;
@@ -138,8 +127,6 @@ impl EventHandler for MainState {
                 Ok(())
             }
             Some(KeyCode::N) => {
-                let px = self.player.position.x;
-                let py = self.player.position.y;
                 let new_pos = vec2(px + 1., py + 1.);
                 if self.map.in_bounds(&new_pos) {
                     self.player.position = new_pos;

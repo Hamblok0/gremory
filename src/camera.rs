@@ -1,5 +1,3 @@
-// TODO, put map's render function here, have camera follow character
-
 use ggez::glam::*;
 use ggez::graphics::{Canvas, Color, DrawParam};
 use ggez::Context;
@@ -16,15 +14,18 @@ pub struct Camera {
     right: f32,
     top: f32,
     bottom: f32,
+    tiles: Tile,
 }
 
 impl Camera {
-    pub fn new(player_pos: Vec2) -> Self {
+    pub fn new(ctx: &mut Context, player_pos: Vec2) -> Self {
+        let tiles = Tile::new(ctx);
         Self {
             left: player_pos.x - FWIDTH,
             right: player_pos.x + FWIDTH,
             top: player_pos.y - FHEIGHT,
             bottom: player_pos.y + FHEIGHT,
+            tiles,
         }
     }
 
@@ -42,9 +43,7 @@ impl Camera {
         map: &Vec<TileType>,
         player: &Vec2,
     ) {
-        let tiles = Tile::new(ctx);
-        let px = player.x * 32.;
-        let py = player.y * 32.;
+        let fplayer = vec2(player.x * 32., player.y * 32.);
         let grey = Color::from_rgb(79, 79, 79);
         let dark_grey = Color::from_rgb(26, 26, 26);
         let player_color = Color::from_rgb(115, 77, 227);
@@ -56,20 +55,20 @@ impl Camera {
                 let yx = (y * 32) as f32;
                 match map[idx] {
                     TileType::Floor => canvas.draw(
-                        &tiles.tile_map,
+                        &self.tiles.tile_map,
                         DrawParam::default()
                             .dest(vec2(fx, yx))
                             .z(0)
                             .color(dark_grey)
-                            .src(*tiles.get_tile(TileType::Floor)),
+                            .src(*self.tiles.get_tile(TileType::Floor)),
                     ),
                     TileType::Wall => canvas.draw(
-                        &tiles.tile_map,
+                        &self.tiles.tile_map,
                         DrawParam::default()
                             .dest(vec2(fx, yx))
                             .z(0)
                             .color(grey)
-                            .src(*tiles.get_tile(TileType::Wall)),
+                            .src(*self.tiles.get_tile(TileType::Wall)),
                     ),
                     _ => (),
                 }
@@ -77,12 +76,12 @@ impl Camera {
         }
 
         canvas.draw(
-            &tiles.tile_map,
+            &self.tiles.tile_map,
             DrawParam::default()
                 .z(1)
-                .dest(vec2(px, py))
+                .dest(fplayer)
                 .color(player_color)
-                .src(*tiles.get_tile(TileType::Player)),
+                .src(*self.tiles.get_tile(TileType::Player)),
         )
     }
 }
