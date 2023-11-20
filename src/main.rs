@@ -74,10 +74,54 @@ impl EventHandler for MainState {
     ) -> Result<(), ggez::GameError> {
         use ggez::input::keyboard::KeyCode;
         match input.keycode {
-            Some(KeyCode::K) => Ok(()),
-            Some(KeyCode::J) => Ok(()),
-            Some(KeyCode::H) => Ok(()),
-            Some(KeyCode::L) => Ok(()),
+            Some(KeyCode::K) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px, py - 1.);
+                Ok(())
+            }
+            Some(KeyCode::J) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px, py + 1.);
+                Ok(())
+            }
+            Some(KeyCode::H) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px - 1., py);
+                Ok(())
+            }
+            Some(KeyCode::L) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px + 1., py);
+                Ok(())
+            }
+            Some(KeyCode::Y) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px - 1., py - 1.);
+                Ok(())
+            }
+            Some(KeyCode::U) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px + 1., py - 1.);
+                Ok(())
+            }
+            Some(KeyCode::B) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px - 1., py + 1.);
+                Ok(())
+            }
+            Some(KeyCode::N) => {
+                let px = self.player.position.x;
+                let py = self.player.position.y;
+                self.player.position = vec2(px + 1., py + 1.);
+                Ok(())
+            }
             _ => Ok(()),
         }
     }
