@@ -35,7 +35,8 @@ impl Camera {
         let tiles = Tile::new(ctx);
         let px = player.x * 32.;
         let py = player.y * 32.;
-        let dark_grey = Color::from_rgb(79, 79, 79);
+        let grey = Color::from_rgb(79, 79, 79);
+        let dark_grey = Color::from_rgb(26, 26, 26);
         let player_color = Color::from_rgb(115, 77, 227);
 
         for y in 0..NUM_Y {
@@ -57,7 +58,7 @@ impl Camera {
                         DrawParam::default()
                             .dest(vec2(fx, yx))
                             .z(0)
-                            .color(dark_grey)
+                            .color(grey)
                             .src(*tiles.get_tile(TileType::Wall)),
                     ),
                     _ => (),
