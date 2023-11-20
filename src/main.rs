@@ -62,7 +62,7 @@ impl EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::BLACK);
         self.camera
-            .render(ctx, &mut canvas, &self.map.map, &self.player.position);
+            .render(ctx, &mut canvas, &self.map.map, self.player.position);
         canvas.finish(ctx)
     }
 

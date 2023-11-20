@@ -41,7 +41,7 @@ impl Camera {
         ctx: &mut Context,
         canvas: &mut Canvas,
         map: &Vec<TileType>,
-        player: &Vec2,
+        player: Vec2,
     ) {
         let fplayer = vec2(player.x * 32., player.y * 32.);
         let grey = Color::from_rgb(79, 79, 79);
