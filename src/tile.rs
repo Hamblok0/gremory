@@ -9,7 +9,7 @@ pub struct Tile {
     pub tiles: Vec<Rect>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum TileType {
     Floor,
     Wall,

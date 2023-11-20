@@ -2,6 +2,8 @@ use crate::tile::TileType;
 use ggez::glam::*;
 
 use crate::prelude::*;
+
+#[derive(Debug)]
 pub struct Map {
     pub map: Vec<TileType>,
     pub player_start: Vec2,
@@ -34,5 +36,11 @@ impl Map {
             self.map[idx_left] = TileType::Wall;
             self.map[idx_right] = TileType::Wall;
         }
+    }
+
+    pub fn in_bounds(&mut self, coords: &Vec2) -> bool {
+        let ix = coords.x as usize;
+        let iy = coords.y as usize;
+        self.map[idx(ix, iy)] != TileType::Wall
     }
 }

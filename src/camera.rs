@@ -11,19 +11,29 @@ use crate::tile::*;
 const FWIDTH: f32 = WINDOW_WIDTH / 2.;
 const FHEIGHT: f32 = WINDOW_HEIGHT / 2.;
 
-pub struct Camera {}
+pub struct Camera {
+    left: f32,
+    right: f32,
+    top: f32,
+    bottom: f32,
+}
 
 impl Camera {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(player_pos: Vec2) -> Self {
+        Self {
+            left: player_pos.x - FWIDTH,
+            right: player_pos.x + FWIDTH,
+            top: player_pos.y - FHEIGHT,
+            bottom: player_pos.y + FHEIGHT,
+        }
     }
 
-    // pub fn on_player_move(&mut self) {
-    //     self.left = self.player_position.x - FWIDTH;
-    //     self.right = self.player_position.x + FWIDTH;
-    //     self.top = self.player_position.y - FHEIGHT;
-    //     self.bottom = self.player_position.y + FHEIGHT;
-    // }
+    pub fn on_player_move(&mut self, player_pos: Vec2) {
+        self.left = player_pos.x - FWIDTH;
+        self.right = player_pos.x + FWIDTH;
+        self.top = player_pos.y - FHEIGHT;
+        self.bottom = player_pos.y + FHEIGHT;
+    }
 
     pub fn render(
         &self,

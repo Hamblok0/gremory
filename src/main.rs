@@ -77,49 +77,73 @@ impl EventHandler for MainState {
             Some(KeyCode::K) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px, py - 1.);
+                let new_pos = vec2(px, py - 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::J) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px, py + 1.);
+                let new_pos = vec2(px, py + 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::H) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px - 1., py);
+                let new_pos = vec2(px - 1., py);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::L) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px + 1., py);
+                let new_pos = vec2(px + 1., py);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::Y) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px - 1., py - 1.);
+                let new_pos = vec2(px - 1., py - 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::U) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px + 1., py - 1.);
+                let new_pos = vec2(px + 1., py - 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::B) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px - 1., py + 1.);
+                let new_pos = vec2(px - 1., py + 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             Some(KeyCode::N) => {
                 let px = self.player.position.x;
                 let py = self.player.position.y;
-                self.player.position = vec2(px + 1., py + 1.);
+                let new_pos = vec2(px + 1., py + 1.);
+                if self.map.in_bounds(&new_pos) {
+                    self.player.position = new_pos;
+                }
                 Ok(())
             }
             _ => Ok(()),
