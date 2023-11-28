@@ -3,14 +3,20 @@ use ggez::glam::*;
 
 use crate::prelude::*;
 
+const UWIDTH: usize = WINDOW_WIDTH as usize;
+const UHEIGHT: usize = WINDOW_HEIGHT as usize;
+
 #[derive(Debug)]
 pub struct Map {
     pub map: Vec<TileType>,
     pub player_start: Vec2,
 }
 
-pub fn idx(x: usize, y: usize) -> usize {
-    (y * NUM_X) + x
+pub fn idx(x: usize, y: usize) -> Option<usize> {
+    if x >= 0 && x <= UWIDTH && y >= 0 && y <= UHEIGHT {
+       return Some((y * NUM_X) + x)
+    } 
+    None 
 }
 
 impl Map {
@@ -25,14 +31,14 @@ impl Map {
         let ix = NUM_X - 1;
 
         for y in 0..NUM_Y {
-            let idx_top = idx(0, y);
-            let idx_bottom = idx(ix, y);
+            let idx_top = idx(0, y).unwrap();
+            let idx_bottom = idx(ix, y).unwrap();
             self.map[idx_top] = TileType::Wall;
             self.map[idx_bottom] = TileType::Wall;
         }
         for x in 0..NUM_X {
-            let idx_left = idx(x, 0);
-            let idx_right = idx(x, iy);
+            let idx_left = idx(x, 0).unwrap();
+            let idx_right = idx(x, iy).unwrap();
             self.map[idx_left] = TileType::Wall;
             self.map[idx_right] = TileType::Wall;
         }
@@ -41,6 +47,6 @@ impl Map {
     pub fn in_bounds(&mut self, coords: &Vec2) -> bool {
         let ix = coords.x as usize;
         let iy = coords.y as usize;
-        self.map[idx(ix, iy)] != TileType::Wall
+        self.map[idx(ix, iy).unwrap()] != TileType::Wall
     }
 }

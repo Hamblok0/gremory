@@ -10,6 +10,7 @@ use crate::colors::Colors;
 const FWIDTH: f32 = WINDOW_WIDTH / 2.;
 const FHEIGHT: f32 = WINDOW_HEIGHT / 2.;
 
+#[derive(Debug)]
 pub struct Camera {
     left: f32,
     right: f32,
@@ -42,34 +43,41 @@ impl Camera {
         ctx: &mut Context,
         canvas: &mut Canvas,
         map: &Vec<TileType>,
-        player: Vec2,
+        player: &Vec2,
         colors: &Colors, 
     ) {
         let fplayer = vec2(player.x * 32., player.y * 32.);
         
         for y in 0..NUM_Y {
             for x in 0..NUM_X {
-                let idx = idx(x, y);
+                let uleft = self.left as usize;
+                let utop = self.top as usize;
+                let check_idx = idx(x + uleft, y + utop);
                 let fx = (x * 32) as f32;
-                let yx = (y * 32) as f32;
-                match map[idx] {
-                    TileType::Floor => canvas.draw(
-                        &self.tiles.tile_map,
-                        DrawParam::default()
-                            .dest(vec2(fx, yx))
-                            .z(0)
-                            .color(colors.dark_grey)
-                            .src(*self.tiles.get_tile(TileType::Floor)),
-                    ),
-                    TileType::Wall => canvas.draw(
-                        &self.tiles.tile_map,
-                        DrawParam::default()
-                            .dest(vec2(fx, yx))
-                            .z(0)
-                            .color(colors.grey)
-                            .src(*self.tiles.get_tile(TileType::Wall)),
-                    ),
-                    _ => (),
+                let fy = (y * 32) as f32;
+
+                if check_idx.is_some() {
+                    let idx = check_idx.unwrap();
+
+                    match map[idx] {
+                        TileType::Floor => canvas.draw(
+                            &self.tiles.tile_map,
+                            DrawParam::default()
+                                .dest(vec2(fx, fy))
+                                .z(0)
+                                .color(colors.dark_grey)
+                                .src(*self.tiles.get_tile(TileType::Floor)),
+                        ),
+                        TileType::Wall => canvas.draw(
+                            &self.tiles.tile_map,
+                            DrawParam::default()
+                                .dest(vec2(fx, fy))
+                                .z(0)
+                                .color(colors.grey)
+                                .src(*self.tiles.get_tile(TileType::Wall)),
+                        ),
+                        _ => (),
+                    }
                 }
             }
         }

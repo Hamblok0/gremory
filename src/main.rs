@@ -57,6 +57,13 @@ impl MainState {
             colors,
         }
     }
+
+    fn handle_move(&mut self, pos: &Vec2) {
+        if self.map.in_bounds(pos) {
+            self.player.position = *pos;
+            self.camera.on_player_move(*pos);
+        }
+    }
 }
 
 impl EventHandler for MainState {
@@ -67,7 +74,7 @@ impl EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::BLACK);
         self.camera
-            .render(ctx, &mut canvas, &self.map.map, self.player.position, &self.colors);
+            .render(ctx, &mut canvas, &self.map.map, &self.player.position, &self.colors);
         canvas.finish(ctx)
     }
 
@@ -84,58 +91,42 @@ impl EventHandler for MainState {
         match input.keycode {
             Some(KeyCode::K) => {
                 let new_pos = vec2(px, py - 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::J) => {
                 let new_pos = vec2(px, py + 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::H) => {
                 let new_pos = vec2(px - 1., py);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::L) => {
                 let new_pos = vec2(px + 1., py);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::Y) => {
                 let new_pos = vec2(px - 1., py - 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::U) => {
                 let new_pos = vec2(px + 1., py - 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::B) => {
                 let new_pos = vec2(px - 1., py + 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             Some(KeyCode::N) => {
                 let new_pos = vec2(px + 1., py + 1.);
-                if self.map.in_bounds(&new_pos) {
-                    self.player.position = new_pos;
-                }
+                self.handle_move(&new_pos);
                 Ok(())
             }
             _ => Ok(()),
