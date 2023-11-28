@@ -5,6 +5,7 @@ use ggez::Context;
 use crate::map::*;
 use crate::prelude::*;
 use crate::tile::*;
+use crate::colors::Colors;
 
 const FWIDTH: f32 = WINDOW_WIDTH / 2.;
 const FHEIGHT: f32 = WINDOW_HEIGHT / 2.;
@@ -42,12 +43,10 @@ impl Camera {
         canvas: &mut Canvas,
         map: &Vec<TileType>,
         player: Vec2,
+        colors: &Colors, 
     ) {
         let fplayer = vec2(player.x * 32., player.y * 32.);
-        let grey = Color::from_rgb(79, 79, 79);
-        let dark_grey = Color::from_rgb(26, 26, 26);
-        let player_color = Color::from_rgb(115, 77, 227);
-
+        
         for y in 0..NUM_Y {
             for x in 0..NUM_X {
                 let idx = idx(x, y);
@@ -59,7 +58,7 @@ impl Camera {
                         DrawParam::default()
                             .dest(vec2(fx, yx))
                             .z(0)
-                            .color(dark_grey)
+                            .color(colors.dark_grey)
                             .src(*self.tiles.get_tile(TileType::Floor)),
                     ),
                     TileType::Wall => canvas.draw(
@@ -67,7 +66,7 @@ impl Camera {
                         DrawParam::default()
                             .dest(vec2(fx, yx))
                             .z(0)
-                            .color(grey)
+                            .color(colors.grey)
                             .src(*self.tiles.get_tile(TileType::Wall)),
                     ),
                     _ => (),
@@ -80,7 +79,7 @@ impl Camera {
             DrawParam::default()
                 .z(1)
                 .dest(fplayer)
-                .color(player_color)
+                .color(colors.player_color)
                 .src(*self.tiles.get_tile(TileType::Player)),
         )
     }

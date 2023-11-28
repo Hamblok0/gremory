@@ -8,6 +8,7 @@ mod camera;
 mod map;
 mod player;
 mod tile;
+mod colors;
 
 mod prelude {
     pub const WINDOW_HEIGHT: f32 = 1080.;
@@ -38,6 +39,7 @@ struct MainState {
     player: player::Player,
     map: map::Map,
     camera: camera::Camera,
+    colors: colors::Colors,
 }
 
 impl MainState {
@@ -46,10 +48,13 @@ impl MainState {
         map.build();
         let camera = camera::Camera::new(ctx, map.player_start);
         let player = player::Player::new(map.player_start);
+        let colors = colors::Colors::new();
+
         Self {
             player,
             map,
             camera,
+            colors,
         }
     }
 }
@@ -62,7 +67,7 @@ impl EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::BLACK);
         self.camera
-            .render(ctx, &mut canvas, &self.map.map, self.player.position);
+            .render(ctx, &mut canvas, &self.map.map, self.player.position, &self.colors);
         canvas.finish(ctx)
     }
 
