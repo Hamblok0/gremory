@@ -1,5 +1,5 @@
 use ggez::glam::*;
-use ggez::graphics::{Canvas, Color, DrawParam};
+use ggez::graphics::{Canvas, DrawParam};
 use ggez::Context;
 
 use crate::map::*;
@@ -7,15 +7,15 @@ use crate::prelude::*;
 use crate::tile::*;
 use crate::colors::Colors;
 
-const FWIDTH: f32 = WINDOW_WIDTH / 2.;
-const FHEIGHT: f32 = WINDOW_HEIGHT / 2.;
+const FWIDTH: i32 = WINDOW_WIDTH as i32 / 2;
+const FHEIGHT: i32 = WINDOW_HEIGHT as i32 / 2;
 
 #[derive(Debug)]
 pub struct Camera {
-    left: f32,
-    right: f32,
-    top: f32,
-    bottom: f32,
+    left: i32,
+    right: i32,
+    top: i32,
+    bottom: i32,
     tiles: Tile,
 }
 
@@ -23,19 +23,19 @@ impl Camera {
     pub fn new(ctx: &mut Context, player_pos: Vec2) -> Self {
         let tiles = Tile::new(ctx);
         Self {
-            left: player_pos.x - FWIDTH,
-            right: player_pos.x + FWIDTH,
-            top: player_pos.y - FHEIGHT,
-            bottom: player_pos.y + FHEIGHT,
+            left: player_pos.x as i32 - FWIDTH,
+            right: player_pos.x as i32 + FWIDTH,
+            top: player_pos.y as i32 - FHEIGHT,
+            bottom: player_pos.y as i32 + FHEIGHT,
             tiles,
         }
     }
 
     pub fn on_player_move(&mut self, player_pos: Vec2) {
-        self.left = player_pos.x - FWIDTH;
-        self.right = player_pos.x + FWIDTH;
-        self.top = player_pos.y - FHEIGHT;
-        self.bottom = player_pos.y + FHEIGHT;
+        self.left = player_pos.x as i32 - FWIDTH;
+        self.right = player_pos.x as i32 + FWIDTH;
+        self.top = player_pos.y as i32 - FHEIGHT;
+        self.bottom = player_pos.y as i32 + FHEIGHT;
     }
 
     pub fn render(
@@ -47,14 +47,12 @@ impl Camera {
         colors: &Colors, 
     ) {
         let fplayer = vec2(player.x * 32., player.y * 32.);
-        
-        for y in 0..NUM_Y {
-            for x in 0..NUM_X {
-                let uleft = self.left as usize;
-                let utop = self.top as usize;
-                let check_idx = idx(x + uleft, y + utop);
-                let fx = (x * 32) as f32;
-                let fy = (y * 32) as f32;
+        print!("{}, {}, {}, {}", self.top, self.bottom, self.left, self.right); 
+        for y in (self.top..self.bottom).step_by(32) {
+            for x in (self.left..self.right).step_by(32) {
+                let check_idx = idx(x as usize, y as usize);
+                let fx = x as f32;
+                let fy = y as f32;
 
                 if check_idx.is_some() {
                     let idx = check_idx.unwrap();
